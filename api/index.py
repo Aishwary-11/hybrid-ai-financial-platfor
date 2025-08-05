@@ -6,6 +6,7 @@ Main entry point for Vercel serverless deployment
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 import json
 import random
 from datetime import datetime
@@ -14,6 +15,15 @@ app = FastAPI(
     title="Hybrid AI Financial Platform",
     description="BlackRock Aladdin-inspired AI platform for investment management",
     version="1.0.0"
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/", response_class=HTMLResponse)
@@ -431,6 +441,11 @@ async def health_check():
             "api_gateway": "operational"
         }
     }
+
+@app.get("/test")
+async def test_endpoint():
+    """Simple test endpoint"""
+    return {"status": "success", "message": "Vercel deployment working!", "timestamp": datetime.now().isoformat()}
 
 # This is required for Vercel
 handler = app
