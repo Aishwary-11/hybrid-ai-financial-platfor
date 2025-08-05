@@ -1,3 +1,31 @@
 {
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/portfolio.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/insights.py", 
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/portfolio",
+      "dest": "api/portfolio.py"
+    },
+    {
+      "src": "/api/insights",
+      "dest": "api/insights.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.html"
+    }
+  ]
 }
